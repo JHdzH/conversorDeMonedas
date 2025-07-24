@@ -9,18 +9,12 @@ import java.util.List;
 
 public class ConsultarAPI {
 
-    public Moneda convertirMoneda(int opcion, double importe){
+    public Moneda convertirMoneda( String codigo, double importe){
 
-        List<String> codigos = new ArrayList<>();
-        codigos.add("MXN/ARS");
-        codigos.add("ARS/MXN");
-        codigos.add("MXN/BRL");
-        codigos.add("BRL/MXN");
-        codigos.add("MXN/COP");
-        codigos.add("COP/MXN");
 
-        URI direccion= URI.create("https://v6.exchangerate-api.com/v6/26addd48a5cda31854b6ef2b/pair/"+codigos.get(opcion-1)+"/"+importe);
-        System.out.println("Direcion creada: "+direccion);
+
+        URI direccion= URI.create("https://v6.exchangerate-api.com/v6/26addd48a5cda31854b6ef2b/pair/"+codigo+"/"+importe);
+        //System.out.println("Direccion creada: "+direccion);
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -33,7 +27,7 @@ public class ConsultarAPI {
 
             return new Gson().fromJson(response.body(), Moneda.class);
         } catch (Exception e) {
-            throw new RuntimeException("\nNo encontré el tipo de Moneda.\n");
+            throw new RuntimeException("\nNo se logró la conversion.\n");
         }
     }
 }
